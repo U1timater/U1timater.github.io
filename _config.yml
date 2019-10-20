@@ -64,7 +64,7 @@ gitalk:
   enable: true    #是否开启Gitalk评论
   clientID: 3aeb0406645ca036d4fa                           #生成的clientID
   clientSecret: c4e0839d4adaca8d2f3e038ca9b4fe96619f2ee9    #生成的clientSecret
-  repo: Gitalk    #仓库名称
+  repo: U1timater.github.io    #仓库名称
   owner: U1timater    #github用户名
   admin: U1timater
   distractionFreeMode: true #是否启用类似FB的阴影遮罩
