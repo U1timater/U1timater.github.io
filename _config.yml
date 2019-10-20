@@ -12,7 +12,7 @@ github_repo: "https://github.com/U1timater/U1timater.github.io" # you code repos
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "Goals determine what you going to be!"    #给我改！
-sidebar-avatar: img/myblog.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: /img/myblog.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
