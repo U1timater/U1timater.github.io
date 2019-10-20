@@ -3,7 +3,7 @@ title: U1timater Blog
 SEOTitle: U1timater的博客 | U1timater Blog
 header-img: img/home-bg1.jpg      
 email: 1121021674@qq.com      
-description: "Every failure is leading towards success."       #给我改！
+description: "What is the purpose of the universe?"       
 keyword: "U1timater,u1timater,U1timater Blog,U1timater的博客,靳国梁，Jinguoliang"
 url: "https://U1timater.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
@@ -11,7 +11,7 @@ github_repo: "https://github.com/U1timater/U1timater.github.io" # you code repos
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "Goals determine what you going to be!"    #给我改！
+sidebar-about-description: "Time is my only enemy"    
 sidebar-avatar: /img/myblog.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
