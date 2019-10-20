@@ -1,7 +1,7 @@
 # Site settings
 title: U1timater Blog
 SEOTitle: U1timater的博客 | U1timater Blog
-header-img: img/post-bg-desk.jpg       #给我改！
+header-img: img/home-bg1.jpg      
 email: 1121021674@qq.com      
 description: "Every failure is leading towards success."       #给我改！
 keyword: "U1timater,u1timater,U1timater Blog,U1timater的博客,靳国梁，Jinguoliang"
@@ -12,7 +12,7 @@ github_repo: "https://github.com/U1timater/U1timater.github.io" # you code repos
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "Goals determine what you going to be!"    #给我改！
-sidebar-avatar: /img/about-BY-gentle.jpg    #给我改！  # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: img/myblog.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
