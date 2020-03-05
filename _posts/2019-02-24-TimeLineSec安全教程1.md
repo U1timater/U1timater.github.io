@@ -166,7 +166,9 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 ### 六、insert/update注入
 
+![khbsvvskdbvlbv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/khbsvvskdbvlbv)
 
+![sjvdhkad](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sjvdhkad)
 
 
 
