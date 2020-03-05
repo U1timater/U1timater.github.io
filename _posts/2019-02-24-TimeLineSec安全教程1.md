@@ -4,7 +4,7 @@ title:      TimeLineSec安全教程（一）————SQL注入
 subtitle:   记录做靶机的过程和过程中的积累
 date:       2020-02-24
 author:     Ultimater
-header-img: img/post-bg-20191109.jpg
+header-img: img/post-bg-timelinesec.jpg
 catalog: true
 tags:
     - 网络安全
@@ -268,9 +268,45 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 ![ajdvajdvaovajdvanva](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ajdvajdvaovajdvanva)
 
-advcncmcmccjc
+![advcncmcmccjcsdbsd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/advcncmcmccjcsdbsd)
 
+![sjbvksdbvkbsdvkbskdvb](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sjbvksdbvkbsdvkbskdvb)
 
+2.用length()函数猜解数据库名的长度`admin' and length(database())=7#``admin' and length(database())=8#`
+
+![avjlakdvsnvjdnjsvdnvds](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avjlakdvsnvjdnjsvdnvds)
+
+![sljvdbvsbvhsdbvkbskh](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sljvdbvsbvhsdbvkbskh)
+
+3.知道出数据库名是7位之后，用substr()函数截取数据库名的每一位，并对每一位进行猜解（substr的用法跟limit的有区别，需要注意。limit是从0开始排序，而这里是从1开始排序。）
+
+`admin' and substr(database(),1,1)='p'#`
+
+![dvjdvjjdvbdvbsmbkdhbd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/dvjdvjjdvbdvbsmbkdhbd)
+
+`admin' and substr(database(),2,1)='i'#`
+
+![advhbakhdbvkhabvkhabva](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/advhbakhdbvkhabvkhabva)
+
+`admin' and substr(database(),3,1)='k'#`
+
+![kadvhbkadbvabvkhbadv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/kadvhbkadbvabvkhbadv)
+
+4.依次猜解得到database()为'pikachu'，可以按照相同方法猜解表名、列名、字段内容。（注意：也可以用burp进行爆破，比手动一个个猜解更快一点，不过需要在substr()函数前再使用一个ord()函数或者ascii()函数，其功能都是将字符转化为ASCII码，之后就可以用ASCII数字码依次爆破。）
+
+### 十一、时间盲注
+
+>**发现不能用布尔盲注只能用时间盲注的情况：当测注入点时，发现不管怎么测试页面都没反应，那就可以在测试语句中加入sleep()函数进行测试。**
+
+>**时间注入是利用sleep()或benchmark()等函数让MySQL的执行时间变长。时间盲注多与IF(expr1,expr2,expr3)结合使用，此if语句含义是：如果expr1是TURE，则IF()的返回值为expr2；否则返回值则为expr3。**
+
+1.在该注入页面发现无论输入什么，页面都只有“i don't care who you are!”一种回复，所以联合注入、报错注入、布尔注入都不适用，这里我们使用时间盲注。
+
+2.使用substr()和ascii()两个函数猜解库名长度，在用if()和sleep()函数判断我们的猜解值是否正确，正确则延时5秒，否则不延时。payload构造`admin' and if(ascii(substr(database(),1,1))=112,sleep(5),1)#`
+
+![avajldvnkjavkjakjvka](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avajldvnkjavkjakjvka)
+
+3.之后依次进行猜解就可以了~步骤和布尔盲注的猜解相同。
 
 
 
