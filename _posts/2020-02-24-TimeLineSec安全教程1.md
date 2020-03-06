@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      TimeLineSec安全教程（一）————SQL注入
-subtitle:   记录做靶机的过程和过程中的积累
+subtitle:   记录实验靶机过程中的积累
 date:       2020-02-24
 author:     Ultimater
 header-img: img/post-bg-timelinesec.jpg
@@ -309,10 +309,12 @@ SQL注入就是指Web应用程序对用户输入数据的合法性没有判断�
 3.之后依次进行猜解就可以了~步骤和布尔盲注的猜解相同。
 
 ************************************************************************************
-
-
-
-
+### 部分参考网页
+[十种MySQL报错注入](https://www.cnblogs.com/wocalieshenmegui/p/5917967.html)
+[SQL注入|T0mmclancy`s Blog](https://clancyb00m.github.io/2019/01/06/SQL%E6%B3%A8%E5%85%A5/)
+[深入透彻理解 sql注入](https://klionsec.github.io/2014/11/09/sqli-readme/)
+[Pikachu漏洞练习平台实验——SQL注入（四）](https://www.cnblogs.com/dogecheng/p/11616282.html#_label7)
+[利用insert，update和delete注入获取数据](https://wooyun.js.org/drops/利用insert，update和delete注入获取数据.html)
 
 
 
