@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      TimeLineSec安全教程（一）————XSS
+title:      TimeLineSec安全教程（二）————XSS
 subtitle:   记录做靶机的过程和过程中的积累
-date:       2020-02-24
+date:       2020-03-06
 author:     Ultimater
 header-img: img/post-bg-timelinesec.jpg
 catalog: true
