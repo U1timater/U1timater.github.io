@@ -206,7 +206,7 @@ htmlspecialchars()是PHP里面把预定义的字符转换为HTML实体的函数�
 
 ![sdbssfvsgsvdsvsbvs](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/sdbssfvsgsvdsvsbvs)
 
-我们发现该页面将我们的输入带入js中动态执行，此时我们要绕过的话，只需要闭合掉源码的`<script>`之后再插入我们的js标签代码就可以了。因此构造payload——`</script><script>alert(1)</script><script>`
+我们发现该页面将我们的输入带入js中动态执行，此时我们要绕过的话，只需要闭合掉源码的<script>之后再插入我们的js标签代码就可以了。因此构造payload——`</script><script>alert(6666)</script><script>`
 
 ![agvasdvasfasfvasfv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/agvasdvasfasfvasfv)
 
