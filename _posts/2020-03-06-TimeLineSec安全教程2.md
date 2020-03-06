@@ -96,7 +96,7 @@ type="image" src="" onerror
 
 xss盲打不是一种攻击方式，而是一种应用场景.
 
-这里输入什么都只会收到“谢谢参与，阁下的看法我们已经收到！”。因此猜测输入的内容都会在后台显示，我们现在模拟管理员登陆后台。
+这里输入什么都只会收到“ 谢谢参与，阁下的看法我们已经收到！”。因此猜测输入的内容都会在后台显示，我们现在模拟管理员登陆后台。
 
 ![kskbjvskjdvkjsvdkjdsv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/kskbjvskjdvkjsvdkjdsv)
 
