@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      TimeLineSec安全教程（三）————文件上传、下载、包含漏洞
+title:      TimeLineSec安全教程（三）————文件上传、下载、包含
 subtitle:   记录实验靶机过程中的积累
 date:       2020-03-22
 author:     Ultimater
