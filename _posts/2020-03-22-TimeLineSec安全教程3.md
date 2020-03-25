@@ -188,7 +188,7 @@ copy 1.jpg/b+1.php 2.jpg
 
 ![akvkabvkabkvhb](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/akvkabvkabkvhb)
 
-成功获取。这里有个注意的点是`../`返回的层级一定要达到大于等于当前位置的文件深度，这样才能保证路径最终返回到C盘根目录下。还需要注意的是桌面文件夹是在C盘内的，桌面文件夹的路径到c盘的路径还有大概三层深度，在做任意文件下载漏洞的过程中不能只反向到桌面文件夹的位置就停止，这是我在实践的过程中遇到的一个小障碍，分享出来作为教训。
+成功获取。这里有个注意的点是`../`返回的层级一定要达到大于等于当前位置的文件深度，这样才能保证路径最终返回到C盘根目录下。还需要注意的是桌面文件夹是在C盘内的，桌面文件夹的路径到C盘的路径还有大概三层深度，在做任意文件下载漏洞的过程中不能只反向到桌面文件夹的位置就停止，这是我在实践的过程中遇到的一个小障碍，分享出来作为教训。
 
 ### 三、任意文件读取
 
@@ -196,7 +196,7 @@ copy 1.jpg/b+1.php 2.jpg
 
 ![jbvskvdbkabdvkabv](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/jbvskvdbkabdvkabv)
 
-由于有了之前的经验，这里我直接回撤了十几个目录（必顶到C盘），然后尝试读取了win.ini文件并成功,如图
+由于有了之前的经验，这里我直接回撤了十几个目录（必顶到C盘），然后尝试读取了`win.ini`文件并成功,如图
 
 ![ajvdjabvkjabsvk](https://raw.githubusercontent.com/U1timater/U1timater.github.io/master/img-in-issue/ajvdjabvkjabsvk)
 
@@ -276,7 +276,6 @@ C:\Windows\win.ini //Windows系统的一个基本系统配置文件
 
 ```
 include()：执行到include时才包含文件，找不到被包含文件时只会产生警告，脚本将继续执行
-
 ```
 
 ```
@@ -299,11 +298,13 @@ include_once()和require_once()：若文件中代码已被包含则不会再次�
 
 ### 三、漏洞验证
 
-- index.php?f=../../../../../../etc/passwd
+```
+index.php?f=../../../../../../etc/passwd
 
-- index.php?f=../index.php
+index.php?f=../index.php
 
-- index.php?f=ﬁle:///etc/passwd
+index.php?f=ﬁle:///etc/passwd
+```
 
 当参数f的参数值为php文件时，若是文件被解析则是文件包含漏洞，
 
